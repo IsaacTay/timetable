@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "PERSEUS_BASE_PATH=https://IsaacTay.github.io/timetable perseus deploy -e && touch ./pkg/.nojekyll",
+    "deploy": "node ./gh-pages.js"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.7",
+    "daisyui": "^2.36.1",
+    "gh-pages": "^4.0.0",
+    "tailwindcss": "^3.2.1"
+  }
+}
