@@ -5,7 +5,7 @@ use wasm_bindgen::{closure::Closure, JsValue};
 
 #[perseus::template_rx]
 pub fn index_page<G: Html>(cx: Scope) -> View<G> {
-    // Icons from https://humbleicons.com/
+    // Icons from https://humbleicons.com/;
     view! { cx,
         div(class="flex flex-col grow h-screen w-screen justify-center p-5 text-center") {
             div(class="flex flex-col items-center space-y-3") {
