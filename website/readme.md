@@ -4,9 +4,9 @@ This app serves to be an easy way to convert your SUTD timetable to a .ics file 
 
 ## Downloading your timetable
 
-Login to [MyPortal](https://myportal.sutd.edu.sg)  
-Navigate to [this page](https://sams.sutd.edu.sg/psc/CSPRD/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL)  
-Right-click, Save Page As, Web page HTML only (Web Page complete also works but will download unnessary things into your computer)  
+Login to <a href="https://myportal.sutd.edu.sg" target="_blank">MyPortal</a>  
+Navigate to <a href="https://sams.sutd.edu.sg/psc/CSPRD/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL" target="_blank">this page</a>  
+Right-click, Save Page As, Web page HTML only (Web Page complete also works but will download unnessary things into your computer)
 
 ## Converting your timetable
 
