@@ -31,7 +31,7 @@ pub fn index_page<G: Html>(cx: Scope) -> View<G> {
                             path(xmlns="http://www.w3.org/2000/svg", stroke="currentColor", stroke-linecap="round", stroke-linejoin="round", stroke-width="2", d="M12 10v9m0-9l3 3m-3-3l-3 3m8.5 2c1.519 0 2.5-1.231 2.5-2.75a2.75 2.75 0 00-2.016-2.65A5 5 0 008.37 8.108a3.5 3.5 0 00-1.87 6.746") {}
                         }
                     }
-                    input(type="file", accept=".html", class="hidden", id="html_input", on:change= |_| {
+                    input(type="file", accept=".html,.htm", class="hidden", id="html_input", on:change= |_| {
                         let document = web_sys::window().unwrap().document().unwrap();
                         let files = document
                             .get_element_by_id("html_input")
