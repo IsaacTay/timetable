@@ -37,8 +37,20 @@ fn create_lesson(
         _ => return None,
     };
 
+    let day = &days_and_times[..2];
+    let day: i32 = match day {
+        "Mo" => 1,
+        "Tu" => 2,
+        "We" => 3,
+        "Th" => 4,
+        "Fr" => 5,
+        "Sa" => 6,
+        "Su" => 7,
+        _ => return None,
+    };
+
     let times = &days_and_times[3..];
-    let (dtstart, dtend) = match times.split(" - ")
+    let (mut dtstart, mut dtend) = match times.split(" - ")
         .map(|time| {
             let time = NaiveTime::parse_from_str(time, "%I:%M%p").unwrap();
             dstart.and_time(time)
@@ -46,6 +58,16 @@ fn create_lesson(
         Some((dtstart, dtend)) => (dtstart, dtend),
         _ => return None,
     };
+
+    let dtstart_day = dtstart.weekday().number_from_monday() as i32;
+    if dtstart_day != day {
+        let mut offset = day - dtstart_day;
+        if offset < 0 {
+            offset += 7;
+        }
+        dtstart = dtstart + Days::new(offset as u64);
+        dtend = dtend + Days::new(offset as u64);
+    }
 
     let repeat_until = match repeat_until {
         repeat_until if repeat_until == dstart => None,
