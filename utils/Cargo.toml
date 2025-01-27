@@ -9,5 +9,6 @@ edition = "2021"
 chrono = "0.4.22"
 ics = "0.5.8"
 itertools = "0.10.5"
+regex = "1.11.1"
 scraper = "0.13.0"
 uuid = { version = "1.2.1", features = ["v4", "js"] }

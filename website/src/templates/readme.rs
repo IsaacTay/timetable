@@ -1,9 +1,8 @@
-use perseus::Template;
+use perseus::prelude::*;
 use sycamore::prelude::{view, Html, Scope, SsrNode, View};
 
 const MARKDOWN: &str = include_str!("../../readme.md");
 
-#[perseus::template_rx]
 pub fn readme_page<G: Html>(cx: Scope) -> View<G> {
     // Icons from https://humbleicons.com/
     let parsed = mdsycx::parse::<()>(MARKDOWN).unwrap();
@@ -23,7 +22,7 @@ pub fn readme_page<G: Html>(cx: Scope) -> View<G> {
     }
 }
 
-#[perseus::head]
+#[engine_only_fn]
 pub fn head(cx: Scope) -> View<SsrNode> {
     view! { cx,
         title { "readme.md" }
@@ -31,5 +30,8 @@ pub fn head(cx: Scope) -> View<SsrNode> {
 }
 
 pub fn get_template<G: Html>() -> Template<G> {
-    Template::new("readme").template(readme_page).head(head)
+    Template::build("readme")
+        .view(readme_page)
+        .head(head)
+        .build()
 }

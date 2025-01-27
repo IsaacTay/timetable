@@ -1,9 +1,8 @@
-use perseus::Template;
+use perseus::prelude::*;
 use sycamore::prelude::{view, Html, Scope, SsrNode, View};
 use sycamore::rt::JsCast;
 use wasm_bindgen::{closure::Closure, JsValue};
 
-#[perseus::template_rx]
 pub fn index_page<G: Html>(cx: Scope) -> View<G> {
     // Icons from https://humbleicons.com/;
     view! { cx,
@@ -80,7 +79,7 @@ pub fn index_page<G: Html>(cx: Scope) -> View<G> {
     }
 }
 
-#[perseus::head]
+#[engine_only_fn]
 pub fn head(cx: Scope) -> View<SsrNode> {
     view! { cx,
         title { "Timetable Builder" }
@@ -88,5 +87,5 @@ pub fn head(cx: Scope) -> View<SsrNode> {
 }
 
 pub fn get_template<G: Html>() -> Template<G> {
-    Template::new("index").template(index_page).head(head)
+    Template::build("index").view(index_page).head(head).build()
 }
