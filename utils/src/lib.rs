@@ -29,47 +29,35 @@ pub struct Class {
 fn create_lesson(
     (days_and_times, location, instructors, start_and_end_dt): (String, String, String, String),
 ) -> Option<Lesson> {
-    if let Some((Some(dstart), Some(repeat_until))) = start_and_end_dt
-        .split(" - ")
-        .map(|date| {
-            if let Ok(date) = NaiveDate::parse_from_str(date, "%d/%m/%Y") {
-                Some(date)
-            } else {
-                None
-            }
-        })
-        .collect_tuple()
-    {
-        if let Some((Some(dtstart), Some(dtend))) = days_and_times
-            .split(" - ")
-            .filter_map(|x| x.split(' ').last())
-            .map(|time| {
-                if let Ok(time) = NaiveTime::parse_from_str(time, "%I:%M%p") {
-                    Some(dstart.and_time(time))
-                } else {
-                    None
-                }
-            })
-            .collect_tuple()
-        {
-            let repeat_until = if dstart == repeat_until {
-                Some(repeat_until.and_hms(23, 59, 59))
-            } else {
-                None
-            };
-            Some(Lesson {
-                dtstart,
-                dtend,
-                repeat_until,
-                location,
-                instructors,
-            })
-        } else {
-            None
-        }
+    let (dstart, repeat_until) = match start_and_end_dt.split(" - ").map(|date| {
+        NaiveDate::parse_from_str(date, "%d/%m/%Y").unwrap()
+    }).collect::<Vec<_>>()[..] {
+        [dstart, repeat_until, ..] => (dstart, repeat_until),
+        _ => return None,
+    };
+
+    let times = &days_and_times[3..];
+    let (dtstart, dtend) = match times.split(" - ")
+        .map(|time| {
+            let time = NaiveTime::parse_from_str(time, "%I:%M%p").unwrap();
+            dstart.and_time(time)
+    }).collect_tuple() {
+        Some((dtstart, dtend)) => (dtstart, dtend),
+        _ => return None,
+    };
+
+    let repeat_until = if dstart == repeat_until {
+        Some(repeat_until.and_hms_opt(23, 59, 59).unwrap())
     } else {
         None
-    }
+    };
+    Some(Lesson {
+        dtstart,
+        dtend,
+        repeat_until,
+        location,
+        instructors,
+    })
 }
 
 #[must_use]
