@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime, Utc};
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime, Utc, Datelike, Days};
 use ics::{
     parameters,
     properties::{Description, DtEnd, DtStart, RRule, Summary},
@@ -26,6 +26,7 @@ pub struct Class {
     lessons: Vec<Lesson>,
 }
 
+// TODO: Replace Optional with result + errors
 fn create_lesson(
     (days_and_times, location, instructors, start_and_end_dt): (String, String, String, String),
 ) -> Option<Lesson> {
@@ -46,11 +47,11 @@ fn create_lesson(
         _ => return None,
     };
 
-    let repeat_until = if dstart == repeat_until {
-        Some(repeat_until.and_hms_opt(23, 59, 59).unwrap())
-    } else {
-        None
+    let repeat_until = match repeat_until {
+        repeat_until if repeat_until == dstart => None,
+        repeat_until => repeat_until.and_hms_opt(23, 59, 59),
     };
+
     Some(Lesson {
         dtstart,
         dtend,
